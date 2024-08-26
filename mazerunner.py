@@ -103,13 +103,16 @@ class MazeRunner:
                     break
 
     def make_maze(self):
+        visited = set()
         while self.frontier_cells:
             p = choice(self.frontier_cells)
             self.maze[p[0]][p[1]] = 0
             self.add_between_cell(p[0], p[1])
             for point in self.find_next_cells(p[0], p[1], 2):
-                if self.maze[point[0]][point[1]] != 0:
-                    self.frontier_cells.append(point)
+                if (point[0], point[1]) not in visited:
+                    if self.maze[point[0]][point[1]] != 0:
+                        self.frontier_cells.append(point)
+                        visited.add((point[0], point[1]))
             self.frontier_cells.remove(p)
         self.add_entry_and_exit()
 
